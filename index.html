@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Climbing Gear Shopping List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --store-sportokay: #10b981;
+            --store-amazon: #f59e0b;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.15), transparent 25%);
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #e0f2fe 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+        }
+
+        .store-badge {
+            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge-sportokay {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--store-sportokay);
+            border: 1px solid rgba(16, 185, 129, 0.5);
+        }
+
+        .badge-amazon {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--store-amazon);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+        }
+
+        .image-gallery {
+            display: flex;
+            gap: 10px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) transparent;
+        }
+
+        .image-gallery::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .image-gallery::-webkit-scrollbar-thumb {
+            background-color: var(--accent);
+            border-radius: 10px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item {
+            flex: 0 0 calc(50% - 5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gallery-item.single {
+            flex: 1 1 100%;
+        }
+
+        .gallery-item.third {
+            flex: 0 0 calc(33.333% - 6.66px);
+        }
+
+        .color-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            text-transform: capitalize;
+        }
+
+        .links {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        a.btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #0f172a;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background: #7dd3fc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .alternative-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-bottom-left-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Table Styles */
+        .table-container {
+            margin-top: 4rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Climbing Gear Selection</h1>
+        <div class="subtitle">Curated equipment for your indoor climbing at Tuuletorn.</div>
+
+        <h2>
+            SportOkay
+            <span class="store-badge badge-sportokay">Use Code: SALE15 (-15%)</span>
+        </h2>
+
+        <div class="grid">
+            <!-- Eagle Lite -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="product-name">Edelrid Eagle Lite 9.5mm (50m)</h3>
+                    <span class="price">€135.99 <span
+                            style="font-size: 0.5em; color: var(--text-muted); text-decoration: line-through;">€159.99</span></span>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="gallery-item">
+                        <img src="https://dr6u1nbiy16vs.cloudfront.net/5637876582/Images/N1-01.jpg" alt="Eagle Lite Red"
+                            class="product-image">
+                        <div class="color-label">Red</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://dr6u1nbiy16vs.cloudfront.net/5637876583/Images/N1-01.jpg"
+                            alt="Eagle Lite Blue" class="product-image">
+                        <div class="color-label">Blue (Polar)</div>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://www.sportokay.com/ee_en/edelrid-eagle-lite-9-5mm-kletterseil-50m-277736.html"
+                        target="_blank" class="btn btn-primary">View on SportOkay</a>
+                    <a href="https://edelrid.com/eu-en/sport/ropes/eagle-lite-9-5mm" target="_blank"
+                        class="btn btn-secondary">Manufacturer Specs</a>
+                </div>
+            </div>
+
+            <!-- Parrot 2R -->
+            <div class="card">
+                <div class="alternative-badge">ALTERNATIVE</div>
+                <div class="card-header">
+                    <h3 class="product-name">Edelrid Parrot 2R 9.6mm (40m)</h3>
+                    <span class="price">€114.74 <span
+                            style="font-size: 0.5em; color: var(--text-muted); text-decoration: line-through;">€134.99</span></span>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="gallery-item single">
+                        <img src="https://dr6u1nbiy16vs.cloudfront.net/5638297091/Images/N1-01.jpg"
+                            alt="Parrot 2R Assorted" class="product-image">
+                        <div class="color-label">Assorted (Eco Blend)</div>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://www.sportokay.com/de_de/edelrid-parrot-2r-9-6mm-40m-kletterseil.html"
+                        target="_blank" class="btn btn-primary">View on SportOkay</a>
+                    <a href="https://edelrid.com/eu-en/sport/ropes/parrot-9-6mm" target="_blank"
+                        class="btn btn-secondary">Manufacturer Specs</a>
+                </div>
+            </div>
+
+            <!-- GriGri+ -->
+            <div class="card" style="grid-column: 1 / -1;">
+                <div class="card-header">
+                    <h3 class="product-name">Petzl GriGri+</h3>
+                    <span class="price">€80.74 <span
+                            style="font-size: 0.5em; color: var(--text-muted); text-decoration: line-through;">€94.99</span></span>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="gallery-item third">
+                        <img src="https://dr6u1nbiy16vs.cloudfront.net/5637544374/Images/N1-01.jpg" alt="GriGri+ Gray"
+                            class="product-image">
+                        <div class="color-label">Gray</div>
+                    </div>
+                    <div class="gallery-item third">
+                        <img src="https://dr6u1nbiy16vs.cloudfront.net/5637544375/Images/N1-01.jpg" alt="GriGri+ Orange"
+                            class="product-image">
+                        <div class="color-label">Orange</div>
+                    </div>
+                    <div class="gallery-item third">
+                        <img src="https://dr6u1nbiy16vs.cloudfront.net/5637544376/Images/N1-01.jpg" alt="GriGri+ Purple"
+                            class="product-image">
+                        <div class="color-label">Purple</div>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://www.sportokay.com/ee_en/petzl-grigri-sicherungsgeraet.html" target="_blank"
+                        class="btn btn-primary">View on SportOkay</a>
+                </div>
+            </div>
+
+            <!-- Grivel Daisy Chain Evo 125cm -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="product-name">Grivel Daisy Chain Evo Bigwall (125cm)</h3>
+                    <span class="price">€35.69 <span
+                            style="font-size: 0.5em; color: var(--text-muted); text-decoration: line-through;">€41.99</span></span>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="gallery-item single">
+                        <img src="https://cdn-www.sportokay.com/media/catalog/product/cache/1/image/1022x1131/9df78eab33525d08d6e5fb8d27136e95/c/a/cartware_3dpicture_P7u2aU.jpg"
+                            alt="Grivel Daisy Chain 125cm" class="product-image" style="background: white;">
+                        <div class="color-label">Standard</div>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://www.sportokay.com/de_de/grivel-daisy-chain-evo-bigwall-schlinge.html"
+                        target="_blank" class="btn btn-primary">View on SportOkay</a>
+                </div>
+            </div>
+
+            <!-- Grivel Sport Chain Evo 58cm -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="product-name">Grivel Sport Chain Evo Bigwall (58cm)</h3>
+                    <span class="price">€19.12 <span
+                            style="font-size: 0.5em; color: var(--text-muted); text-decoration: line-through;">€22.49</span></span>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="gallery-item single">
+                        <img src="https://cdn-www.sportokay.com/media/catalog/product/cache/1/image/1022x1131/9df78eab33525d08d6e5fb8d27136e95/c/a/cartware_3dpicture_KBnsyI.jpg"
+                            alt="Grivel Sport Chain 58cm" class="product-image" style="background: white;">
+                        <div class="color-label">Standard</div>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://www.sportokay.com/de_de/grivel-sport-chain-evo-bigwall-schlinge.html"
+                        target="_blank" class="btn btn-primary">View on SportOkay</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- AMAZON SECTION -->
+        <h2>
+            Amazon
+            <span class="store-badge badge-amazon">Prime Ready</span>
+        </h2>
+
+        <div class="grid">
+            <!-- Carabiner -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="product-name">PETZL Am'D Lightweight Asymmetric Carabiner (Triact Lock)</h3>
+                    <div>
+                        <span class="price">€31.83</span>
+                        <span style="font-weight: 800; color: var(--accent); margin-left: 10px; font-size: 1.2rem;">x
+                            2</span>
+                    </div>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="gallery-item single">
+                        <img src="https://m.media-amazon.com/images/I/61O5NX9+FVL._AC_SY879_.jpg"
+                            alt="Petzl Am'D Carabiner" class="product-image" style="background: white;">
+                        <div class="color-label">Black</div>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://www.amazon.de/dp/B01AS5MA3G" target="_blank" class="btn btn-primary"
+                        style="background: var(--store-amazon); color: white; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">View
+                        on Amazon</a>
+                </div>
+            </div>
+
+            <!-- Belay Glasses -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="product-name">BG Climbing Belay Glasses</h3>
+                    <span class="price">€36.37</span>
+                </div>
+
+                <div class="image-gallery">
+                    <div class="gallery-item single">
+                        <img src="https://m.media-amazon.com/images/I/61T-nqfv99L._AC_SX679_.jpg" alt="BG Belay Glasses"
+                            class="product-image" style="background: white;">
+                        <div class="color-label">Black / Prism</div>
+                    </div>
+                </div>
+
+                <div class="links">
+                    <a href="https://www.amazon.de/-/en/BG-Climbing-Belay-glasses-black/dp/B07TSFZVGJ" target="_blank"
+                        class="btn btn-primary"
+                        style="background: var(--store-amazon); color: white; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">View
+                        on Amazon</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPARISON TABLE -->
+        <div class="table-container">
+            <h2>Rope Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Edelrid Eagle Lite</th>
+                        <th>Edelrid Parrot 2R</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Diameter</td>
+                        <td>9.5 mm</td>
+                        <td>9.6 mm</td>
+                    </tr>
+                    <tr>
+                        <td>Lengths Available (List)</td>
+                        <td>50m</td>
+                        <td>40m</td>
+                    </tr>
+                    <tr>
+                        <td>Handling Profile</td>
+                        <td>Extremely smooth, compact, lightweight</td>
+                        <td>Robust, excellent all-rounder</td>
+                    </tr>
+                    <tr>
+                        <td>Eco-Friendliness</td>
+                        <td>PFC-free options available</td>
+                        <td>Made from 100% leftover production yarns (highly sustainable)</td>
+                    </tr>
+                    <tr>
+                        <td>Aesthetics</td>
+                        <td>Vibrant solid colors (Red, Blue)</td>
+                        <td>Unique multi-color pattern per rope</td>
+                    </tr>
+                    <tr>
+                        <td>Best For</td>
+                        <td>High-level sport climbing, silky Grigri feeds</td>
+                        <td>Everyday gym sessions, eco-conscious climbers</td>
+                    </tr>
+                    <tr>
+                        <td>Current Price (-15%)</td>
+                        <td>€135.99</td>
+                        <td>€114.74</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

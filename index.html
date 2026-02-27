@@ -37,7 +37,13 @@
             width: 100%;
             max-width: 1000px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 1rem 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
         }
 
         h1 {
@@ -102,7 +108,7 @@
             display: grid;
             gap: 1rem;
             /* Mobile first: 1 column. Tablets/Desktop: auto-fit columns that don't stretch too wide */
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
         }
 
         @media (min-width: 640px) {
@@ -115,7 +121,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 1rem;
+            padding: 1rem 0.5rem;
             margin-bottom: 2rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
@@ -142,6 +148,7 @@
             display: flex;
             flex-direction: column;
             transition: border-color 0.2s;
+            min-width: 0;
         }
 
         .card:hover {
@@ -176,6 +183,8 @@
             line-height: 1.3;
             margin: 0;
             flex: 1;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .price-container {
@@ -244,6 +253,7 @@
 
         .product-image {
             width: 150px;
+            max-width: 100%;
             height: 150px;
             object-fit: contain;
             border: 1px solid var(--border);
